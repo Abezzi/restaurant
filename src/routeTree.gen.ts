@@ -12,10 +12,16 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as DemoTableRouteImport } from './routes/demo/table'
 import { Route as DemoConvexRouteImport } from './routes/demo/convex'
 import { Route as DemoBetterAuthRouteImport } from './routes/demo/better-auth'
 import { Route as AuthBetterAuthRouteImport } from './routes/auth/better-auth'
+import { Route as DashboardUsersIndexRouteImport } from './routes/dashboard/users/index'
+import { Route as DashboardSalesIndexRouteImport } from './routes/dashboard/sales/index'
+import { Route as DashboardRolesIndexRouteImport } from './routes/dashboard/roles/index'
+import { Route as DashboardRestaurantIndexRouteImport } from './routes/dashboard/restaurant/index'
+import { Route as DashboardDishesIndexRouteImport } from './routes/dashboard/dishes/index'
 import { Route as DemoFormSimpleRouteImport } from './routes/demo/form.simple'
 import { Route as DemoFormAddressRouteImport } from './routes/demo/form.address'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
@@ -34,6 +40,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRouteRoute,
 } as any)
 const DemoTableRoute = DemoTableRouteImport.update({
   id: '/demo/table',
@@ -55,6 +66,32 @@ const AuthBetterAuthRoute = AuthBetterAuthRouteImport.update({
   path: '/auth/better-auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardUsersIndexRoute = DashboardUsersIndexRouteImport.update({
+  id: '/users/',
+  path: '/users/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardSalesIndexRoute = DashboardSalesIndexRouteImport.update({
+  id: '/sales/',
+  path: '/sales/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardRolesIndexRoute = DashboardRolesIndexRouteImport.update({
+  id: '/roles/',
+  path: '/roles/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardRestaurantIndexRoute =
+  DashboardRestaurantIndexRouteImport.update({
+    id: '/restaurant/',
+    path: '/restaurant/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+const DashboardDishesIndexRoute = DashboardDishesIndexRouteImport.update({
+  id: '/dishes/',
+  path: '/dishes/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const DemoFormSimpleRoute = DemoFormSimpleRouteImport.update({
   id: '/demo/form/simple',
   path: '/demo/form/simple',
@@ -73,40 +110,57 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRouteRoute
+  '/dashboard': typeof DashboardRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/auth/better-auth': typeof AuthBetterAuthRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/demo/convex': typeof DemoConvexRoute
   '/demo/table': typeof DemoTableRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/demo/form/address': typeof DemoFormAddressRoute
   '/demo/form/simple': typeof DemoFormSimpleRoute
+  '/dashboard/dishes/': typeof DashboardDishesIndexRoute
+  '/dashboard/restaurant/': typeof DashboardRestaurantIndexRoute
+  '/dashboard/roles/': typeof DashboardRolesIndexRoute
+  '/dashboard/sales/': typeof DashboardSalesIndexRoute
+  '/dashboard/users/': typeof DashboardUsersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRouteRoute
   '/about': typeof AboutRoute
   '/auth/better-auth': typeof AuthBetterAuthRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/demo/convex': typeof DemoConvexRoute
   '/demo/table': typeof DemoTableRoute
+  '/dashboard': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/demo/form/address': typeof DemoFormAddressRoute
   '/demo/form/simple': typeof DemoFormSimpleRoute
+  '/dashboard/dishes': typeof DashboardDishesIndexRoute
+  '/dashboard/restaurant': typeof DashboardRestaurantIndexRoute
+  '/dashboard/roles': typeof DashboardRolesIndexRoute
+  '/dashboard/sales': typeof DashboardSalesIndexRoute
+  '/dashboard/users': typeof DashboardUsersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRouteRoute
+  '/dashboard': typeof DashboardRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/auth/better-auth': typeof AuthBetterAuthRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/demo/convex': typeof DemoConvexRoute
   '/demo/table': typeof DemoTableRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/demo/form/address': typeof DemoFormAddressRoute
   '/demo/form/simple': typeof DemoFormSimpleRoute
+  '/dashboard/dishes/': typeof DashboardDishesIndexRoute
+  '/dashboard/restaurant/': typeof DashboardRestaurantIndexRoute
+  '/dashboard/roles/': typeof DashboardRolesIndexRoute
+  '/dashboard/sales/': typeof DashboardSalesIndexRoute
+  '/dashboard/users/': typeof DashboardUsersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -118,21 +172,32 @@ export interface FileRouteTypes {
     | '/demo/better-auth'
     | '/demo/convex'
     | '/demo/table'
+    | '/dashboard/'
     | '/api/auth/$'
     | '/demo/form/address'
     | '/demo/form/simple'
+    | '/dashboard/dishes/'
+    | '/dashboard/restaurant/'
+    | '/dashboard/roles/'
+    | '/dashboard/sales/'
+    | '/dashboard/users/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/dashboard'
     | '/about'
     | '/auth/better-auth'
     | '/demo/better-auth'
     | '/demo/convex'
     | '/demo/table'
+    | '/dashboard'
     | '/api/auth/$'
     | '/demo/form/address'
     | '/demo/form/simple'
+    | '/dashboard/dishes'
+    | '/dashboard/restaurant'
+    | '/dashboard/roles'
+    | '/dashboard/sales'
+    | '/dashboard/users'
   id:
     | '__root__'
     | '/'
@@ -142,14 +207,20 @@ export interface FileRouteTypes {
     | '/demo/better-auth'
     | '/demo/convex'
     | '/demo/table'
+    | '/dashboard/'
     | '/api/auth/$'
     | '/demo/form/address'
     | '/demo/form/simple'
+    | '/dashboard/dishes/'
+    | '/dashboard/restaurant/'
+    | '/dashboard/roles/'
+    | '/dashboard/sales/'
+    | '/dashboard/users/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DashboardRouteRoute: typeof DashboardRouteRoute
+  DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   AuthBetterAuthRoute: typeof AuthBetterAuthRoute
   DemoBetterAuthRoute: typeof DemoBetterAuthRoute
@@ -183,6 +254,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/demo/table': {
       id: '/demo/table'
       path: '/demo/table'
@@ -211,6 +289,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthBetterAuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/users/': {
+      id: '/dashboard/users/'
+      path: '/users'
+      fullPath: '/dashboard/users/'
+      preLoaderRoute: typeof DashboardUsersIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/sales/': {
+      id: '/dashboard/sales/'
+      path: '/sales'
+      fullPath: '/dashboard/sales/'
+      preLoaderRoute: typeof DashboardSalesIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/roles/': {
+      id: '/dashboard/roles/'
+      path: '/roles'
+      fullPath: '/dashboard/roles/'
+      preLoaderRoute: typeof DashboardRolesIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/restaurant/': {
+      id: '/dashboard/restaurant/'
+      path: '/restaurant'
+      fullPath: '/dashboard/restaurant/'
+      preLoaderRoute: typeof DashboardRestaurantIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/dishes/': {
+      id: '/dashboard/dishes/'
+      path: '/dishes'
+      fullPath: '/dashboard/dishes/'
+      preLoaderRoute: typeof DashboardDishesIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/demo/form/simple': {
       id: '/demo/form/simple'
       path: '/demo/form/simple'
@@ -235,9 +348,31 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface DashboardRouteRouteChildren {
+  DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardDishesIndexRoute: typeof DashboardDishesIndexRoute
+  DashboardRestaurantIndexRoute: typeof DashboardRestaurantIndexRoute
+  DashboardRolesIndexRoute: typeof DashboardRolesIndexRoute
+  DashboardSalesIndexRoute: typeof DashboardSalesIndexRoute
+  DashboardUsersIndexRoute: typeof DashboardUsersIndexRoute
+}
+
+const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
+  DashboardIndexRoute: DashboardIndexRoute,
+  DashboardDishesIndexRoute: DashboardDishesIndexRoute,
+  DashboardRestaurantIndexRoute: DashboardRestaurantIndexRoute,
+  DashboardRolesIndexRoute: DashboardRolesIndexRoute,
+  DashboardSalesIndexRoute: DashboardSalesIndexRoute,
+  DashboardUsersIndexRoute: DashboardUsersIndexRoute,
+}
+
+const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
+  DashboardRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DashboardRouteRoute: DashboardRouteRoute,
+  DashboardRouteRoute: DashboardRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   AuthBetterAuthRoute: AuthBetterAuthRoute,
   DemoBetterAuthRoute: DemoBetterAuthRoute,

@@ -1,38 +1,125 @@
-import { createFileRoute, Navigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { Outlet, Link } from "@tanstack/react-router";
+import { useQuery } from "convex/react";
+import { api } from "../../../convex/_generated/api"; // your Convex queries
 import { authClient } from "#/lib/auth-client";
 
 export const Route = createFileRoute("/dashboard")({
-  component: DashboardPage,
+  component: DashboardLayout,
 });
 
-function DashboardPage() {
-  const { data: session, isPending } = authClient.useSession();
+function DashboardLayout() {
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
 
-  // Show loading while session is being fetched
-  if (isPending) {
-    return (
-      <div className="flex items-center justify-center py-10">
-        <div className="h-5 w-5 animate-spin rounded-full border-2 border-neutral-200 border-t-neutral-900 dark:border-neutral-800 dark:border-t-neutral-100" />
-      </div>
-    );
-  }
+  // Fetch restaurant info once (so footer + header can show dynamic name)
+  const restaurant = useQuery(api.restaurant.get) ?? { name: "Mi Restaurante" };
 
-  // If not logged in → redirect to sign-in page
-  if (!session?.user) {
-    return <Navigate to="/auth/better-auth" />;
-  }
+  if (!user) return null; // better-auth + beforeLoad already protects this
 
-  // Logged-in restaurant dashboard (your TanStack Table + everything else)
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-semibold">Restaurant Dashboard</h1>
-      <p className="text-neutral-500">Welcome back, {session.user.name} 👋</p>
-      {/* 
-        Here goes:
-        - TanStack Table for dishes + price editing
-        - User management & permissions
-        - Landing page editor (update hero, menu, etc.)
-      */}
+    <div className="flex h-screen bg-gray-50">
+      {/* SIDE MENU */}
+      <div className="w-64 bg-white border-r border-gray-200 flex flex-col">
+        <div className="p-6 border-b">
+          <h1 className="text-2xl font-bold text-amber-600">
+            {restaurant.name}
+          </h1>
+          <p className="text-xs text-gray-500">Dashboard</p>
+        </div>
+
+        <nav className="flex-1 p-4 space-y-1">
+          <Link
+            to="/dashboard"
+            activeProps={{ className: "bg-amber-100 text-amber-700" }}
+            className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 text-gray-700"
+          >
+            📊 Overview
+          </Link>
+          <Link
+            to="/dashboard/users"
+            activeProps={{ className: "bg-amber-100 text-amber-700" }}
+            className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 text-gray-700"
+          >
+            👤 Users & Permissions
+          </Link>
+          <Link
+            to="/dashboard/roles"
+            activeProps={{ className: "bg-amber-100 text-amber-700" }}
+            className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 text-gray-700"
+          >
+            🔑 Roles
+          </Link>
+          <Link
+            to="/dashboard/dishes"
+            activeProps={{ className: "bg-amber-100 text-amber-700" }}
+            className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 text-gray-700"
+          >
+            🍽️ Dishes & Prices
+          </Link>
+          <Link
+            to="/dashboard/restaurant"
+            activeProps={{ className: "bg-amber-100 text-amber-700" }}
+            className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 text-gray-700"
+          >
+            🏪 Restaurant Info
+          </Link>
+          <Link
+            to="/dashboard/sales"
+            activeProps={{ className: "bg-amber-100 text-amber-700" }}
+            className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 text-gray-700"
+          >
+            💰 Sales
+          </Link>
+        </nav>
+
+        {/* Footer inside sidebar or bottom */}
+        <div className="p-4 border-t text-xs text-gray-500">
+          © {new Date().getFullYear()} {restaurant.name} — Todos los derechos
+          reservados
+        </div>
+      </div>
+
+      {/* MAIN CONTENT AREA */}
+      <div className="flex-1 flex flex-col">
+        {/* HEADER */}
+        <header className="h-14 bg-white border-b flex items-center justify-between px-6">
+          <div className="flex items-center gap-3">
+            <span className="text-lg font-semibold">Dashboard</span>
+          </div>
+
+          <div className="flex items-center gap-4">
+            {/* Logged user + role */}
+            <div className="text-right">
+              <p className="font-medium text-sm">{user.name || user.email}</p>
+              {/* <p className="text-xs text-gray-500 capitalize"> */}
+              {/*   {user.role || "staff"} */}
+              {/* </p> */}
+            </div>
+
+            {/* Sign-out (better-auth) */}
+            <button
+              onClick={() => {
+                void authClient.signOut();
+              }}
+              className="text-sm text-gray-500 hover:text-red-600"
+            >
+              Sign Out
+            </button>
+          </div>
+        </header>
+
+        {/* PAGE CONTENT */}
+        <main className="flex-1 overflow-auto p-6">
+          <Outlet />
+        </main>
+
+        {/* BOTTOM FOOTER (optional – you already have one in sidebar) */}
+        <footer className="h-12 bg-white border-t flex items-center px-6 text-xs text-gray-400">
+          {restaurant.name} - Alex Herrera. All rights reserved. ©{" "}
+          {new Date().getFullYear()}
+        </footer>
+      </div>
     </div>
   );
 }

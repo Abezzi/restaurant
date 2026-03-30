@@ -9,6 +9,7 @@
  */
 
 import type * as http from "../http.js";
+import type * as restaurant from "../restaurant.js";
 import type * as todos from "../todos.js";
 
 import type {
@@ -19,6 +20,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   http: typeof http;
+  restaurant: typeof restaurant;
   todos: typeof todos;
 }>;
 
