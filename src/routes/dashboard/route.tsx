@@ -3,6 +3,7 @@ import { Outlet, Link } from "@tanstack/react-router";
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api"; // your Convex queries
 import { authClient } from "#/lib/auth-client";
+import { useSignOut } from "#/hooks/useAuth";
 
 export const Route = createFileRoute("/dashboard")({
   component: DashboardLayout,
@@ -11,6 +12,7 @@ export const Route = createFileRoute("/dashboard")({
 function DashboardLayout() {
   const { data: session } = authClient.useSession();
   const user = session?.user;
+  const { signOutAndRedirect } = useSignOut();
 
   // Fetch restaurant info once (so footer + header can show dynamic name)
   const restaurant = useQuery(api.restaurant.get) ?? { name: "Mi Restaurante" };
@@ -72,12 +74,6 @@ function DashboardLayout() {
             💰 Sales
           </Link>
         </nav>
-
-        {/* Footer inside sidebar or bottom */}
-        <div className="p-4 border-t text-xs text-gray-500">
-          © {new Date().getFullYear()} {restaurant.name} — Todos los derechos
-          reservados
-        </div>
       </div>
 
       {/* MAIN CONTENT AREA */}
@@ -99,9 +95,7 @@ function DashboardLayout() {
 
             {/* Sign-out (better-auth) */}
             <button
-              onClick={() => {
-                void authClient.signOut();
-              }}
+              onClick={signOutAndRedirect}
               className="text-sm text-gray-500 hover:text-red-600"
             >
               Sign Out
