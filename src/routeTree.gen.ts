@@ -11,12 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as PublicRouteRouteImport } from './routes/_public/route'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
+import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as DemoTableRouteImport } from './routes/demo/table'
 import { Route as DemoConvexRouteImport } from './routes/demo/convex'
 import { Route as DemoBetterAuthRouteImport } from './routes/demo/better-auth'
-import { Route as AuthBetterAuthRouteImport } from './routes/auth/better-auth'
 import { Route as DashboardUsersIndexRouteImport } from './routes/dashboard/users/index'
 import { Route as DashboardSalesIndexRouteImport } from './routes/dashboard/sales/index'
 import { Route as DashboardRolesIndexRouteImport } from './routes/dashboard/roles/index'
@@ -25,6 +25,7 @@ import { Route as DashboardDishesIndexRouteImport } from './routes/dashboard/dis
 import { Route as DemoFormSimpleRouteImport } from './routes/demo/form.simple'
 import { Route as DemoFormAddressRouteImport } from './routes/demo/form.address'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as PublicAuthBetterAuthRouteImport } from './routes/_public/auth/better-auth'
 
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
@@ -36,15 +37,19 @@ const DashboardRouteRoute = DashboardRouteRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const PublicRouteRoute = PublicRouteRouteImport.update({
+  id: '/_public',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => DashboardRouteRoute,
+} as any)
+const PublicIndexRoute = PublicIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PublicRouteRoute,
 } as any)
 const DemoTableRoute = DemoTableRouteImport.update({
   id: '/demo/table',
@@ -59,11 +64,6 @@ const DemoConvexRoute = DemoConvexRouteImport.update({
 const DemoBetterAuthRoute = DemoBetterAuthRouteImport.update({
   id: '/demo/better-auth',
   path: '/demo/better-auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthBetterAuthRoute = AuthBetterAuthRouteImport.update({
-  id: '/auth/better-auth',
-  path: '/auth/better-auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardUsersIndexRoute = DashboardUsersIndexRouteImport.update({
@@ -107,16 +107,21 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PublicAuthBetterAuthRoute = PublicAuthBetterAuthRouteImport.update({
+  id: '/auth/better-auth',
+  path: '/auth/better-auth',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof PublicIndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/about': typeof AboutRoute
-  '/auth/better-auth': typeof AuthBetterAuthRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/demo/convex': typeof DemoConvexRoute
   '/demo/table': typeof DemoTableRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/auth/better-auth': typeof PublicAuthBetterAuthRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/demo/form/address': typeof DemoFormAddressRoute
   '/demo/form/simple': typeof DemoFormSimpleRoute
@@ -127,13 +132,13 @@ export interface FileRoutesByFullPath {
   '/dashboard/users/': typeof DashboardUsersIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/auth/better-auth': typeof AuthBetterAuthRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/demo/convex': typeof DemoConvexRoute
   '/demo/table': typeof DemoTableRoute
+  '/': typeof PublicIndexRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/auth/better-auth': typeof PublicAuthBetterAuthRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/demo/form/address': typeof DemoFormAddressRoute
   '/demo/form/simple': typeof DemoFormSimpleRoute
@@ -145,14 +150,15 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_public': typeof PublicRouteRouteWithChildren
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/about': typeof AboutRoute
-  '/auth/better-auth': typeof AuthBetterAuthRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/demo/convex': typeof DemoConvexRoute
   '/demo/table': typeof DemoTableRoute
+  '/_public/': typeof PublicIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/_public/auth/better-auth': typeof PublicAuthBetterAuthRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/demo/form/address': typeof DemoFormAddressRoute
   '/demo/form/simple': typeof DemoFormSimpleRoute
@@ -168,11 +174,11 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/about'
-    | '/auth/better-auth'
     | '/demo/better-auth'
     | '/demo/convex'
     | '/demo/table'
     | '/dashboard/'
+    | '/auth/better-auth'
     | '/api/auth/$'
     | '/demo/form/address'
     | '/demo/form/simple'
@@ -183,13 +189,13 @@ export interface FileRouteTypes {
     | '/dashboard/users/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/about'
-    | '/auth/better-auth'
     | '/demo/better-auth'
     | '/demo/convex'
     | '/demo/table'
+    | '/'
     | '/dashboard'
+    | '/auth/better-auth'
     | '/api/auth/$'
     | '/demo/form/address'
     | '/demo/form/simple'
@@ -200,14 +206,15 @@ export interface FileRouteTypes {
     | '/dashboard/users'
   id:
     | '__root__'
-    | '/'
+    | '/_public'
     | '/dashboard'
     | '/about'
-    | '/auth/better-auth'
     | '/demo/better-auth'
     | '/demo/convex'
     | '/demo/table'
+    | '/_public/'
     | '/dashboard/'
+    | '/_public/auth/better-auth'
     | '/api/auth/$'
     | '/demo/form/address'
     | '/demo/form/simple'
@@ -219,10 +226,9 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  PublicRouteRoute: typeof PublicRouteRouteWithChildren
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
-  AuthBetterAuthRoute: typeof AuthBetterAuthRoute
   DemoBetterAuthRoute: typeof DemoBetterAuthRoute
   DemoConvexRoute: typeof DemoConvexRoute
   DemoTableRoute: typeof DemoTableRoute
@@ -247,11 +253,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
+    '/_public': {
+      id: '/_public'
+      path: ''
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof PublicRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard/': {
@@ -260,6 +266,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/'
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
+    }
+    '/_public/': {
+      id: '/_public/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof PublicIndexRouteImport
+      parentRoute: typeof PublicRouteRoute
     }
     '/demo/table': {
       id: '/demo/table'
@@ -280,13 +293,6 @@ declare module '@tanstack/react-router' {
       path: '/demo/better-auth'
       fullPath: '/demo/better-auth'
       preLoaderRoute: typeof DemoBetterAuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth/better-auth': {
-      id: '/auth/better-auth'
-      path: '/auth/better-auth'
-      fullPath: '/auth/better-auth'
-      preLoaderRoute: typeof AuthBetterAuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard/users/': {
@@ -345,8 +351,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_public/auth/better-auth': {
+      id: '/_public/auth/better-auth'
+      path: '/auth/better-auth'
+      fullPath: '/auth/better-auth'
+      preLoaderRoute: typeof PublicAuthBetterAuthRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
   }
 }
+
+interface PublicRouteRouteChildren {
+  PublicIndexRoute: typeof PublicIndexRoute
+  PublicAuthBetterAuthRoute: typeof PublicAuthBetterAuthRoute
+}
+
+const PublicRouteRouteChildren: PublicRouteRouteChildren = {
+  PublicIndexRoute: PublicIndexRoute,
+  PublicAuthBetterAuthRoute: PublicAuthBetterAuthRoute,
+}
+
+const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(
+  PublicRouteRouteChildren,
+)
 
 interface DashboardRouteRouteChildren {
   DashboardIndexRoute: typeof DashboardIndexRoute
@@ -371,10 +398,9 @@ const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
 )
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  PublicRouteRoute: PublicRouteRouteWithChildren,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
   AboutRoute: AboutRoute,
-  AuthBetterAuthRoute: AuthBetterAuthRoute,
   DemoBetterAuthRoute: DemoBetterAuthRoute,
   DemoConvexRoute: DemoConvexRoute,
   DemoTableRoute: DemoTableRoute,
