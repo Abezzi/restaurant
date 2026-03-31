@@ -32,15 +32,31 @@ export function DashboardSidebar({
       icon: <ChartNoAxesCombined className="w-5 h-5" />,
       exact: true,
     },
-    { to: "/dashboard/users", label: "Users & Permissions", icon: <Users /> },
-    { to: "/dashboard/roles", label: "Roles", icon: <KeyRound /> },
-    { to: "/dashboard/dishes", label: "Dishes & Prices", icon: <Utensils /> },
+    {
+      to: "/dashboard/users",
+      label: "Users & Permissions",
+      icon: <Users className="w-5 h-5" />,
+    },
+    {
+      to: "/dashboard/roles",
+      label: "Roles",
+      icon: <KeyRound className="w-5 h-5" />,
+    },
+    {
+      to: "/dashboard/dishes",
+      label: "Dishes & Prices",
+      icon: <Utensils className="w-5 h-5" />,
+    },
     {
       to: "/dashboard/restaurant",
       label: "Restaurant Info",
-      icon: <BookText />,
+      icon: <BookText className="w-5 h-5" />,
     },
-    { to: "/dashboard/sales", label: "Sales", icon: <BadgeDollarSign /> },
+    {
+      to: "/dashboard/sales",
+      label: "Sales",
+      icon: <BadgeDollarSign className="w-5 h-5" />,
+    },
   ];
 
   return (
