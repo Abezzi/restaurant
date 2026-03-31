@@ -351,10 +351,6 @@ a {
   background: color-mix(in oklab, var(--header-bg) 84%, transparent 16%);
 }
 
-.dashboard-card {
-  @apply island-shell rounded-3xl p-8;
-}
-
 .dashboard-card:hover {
   box-shadow: 0 22px 44px rgba(30, 90, 72, 0.12);
   transform: translateY(-3px);

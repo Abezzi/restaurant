@@ -1,7 +1,16 @@
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChartNoAxesCombined,
+  Users,
+  KeyRound,
+  Utensils,
+  BookText,
+  BadgeDollarSign,
+} from "lucide-react";
 
 interface DashboardSidebarProps {
   isCollapsed: boolean;
@@ -17,12 +26,21 @@ export function DashboardSidebar({
   };
 
   const navItems = [
-    { to: "/dashboard", label: "Overview", emoji: "📊" },
-    { to: "/dashboard/users", label: "Users & Permissions", emoji: "👤" },
-    { to: "/dashboard/roles", label: "Roles", emoji: "🔑" },
-    { to: "/dashboard/dishes", label: "Dishes & Prices", emoji: "🍽️" },
-    { to: "/dashboard/restaurant", label: "Restaurant Info", emoji: "🏪" },
-    { to: "/dashboard/sales", label: "Sales", emoji: "💰" },
+    {
+      to: "/dashboard",
+      label: "Overview",
+      icon: <ChartNoAxesCombined className="w-5 h-5" />,
+      exact: true,
+    },
+    { to: "/dashboard/users", label: "Users & Permissions", icon: <Users /> },
+    { to: "/dashboard/roles", label: "Roles", icon: <KeyRound /> },
+    { to: "/dashboard/dishes", label: "Dishes & Prices", icon: <Utensils /> },
+    {
+      to: "/dashboard/restaurant",
+      label: "Restaurant Info",
+      icon: <BookText />,
+    },
+    { to: "/dashboard/sales", label: "Sales", icon: <BadgeDollarSign /> },
   ];
 
   return (
@@ -62,6 +80,7 @@ export function DashboardSidebar({
           <Link
             key={item.to}
             to={item.to}
+            activeOptions={item.exact ? { exact: true } : undefined}
             activeProps={{
               className:
                 "bg-[var(--lagoon)]/10 text-[var(--lagoon-deep)] border-l-2 border-[var(--lagoon-deep)]",
@@ -71,8 +90,8 @@ export function DashboardSidebar({
             style={{ animationDelay: `${index * 40}ms` }}
             title={isCollapsed ? item.label : undefined}
           >
-            <span className="text-xl opacity-80 group-hover:scale-110 transition-transform">
-              {item.emoji}
+            <span className="text-xl opacity-80 group-hover:scale-110 transition-transform flex items-center justify-center">
+              {item.icon}
             </span>
             {!isCollapsed && <span className="font-medium">{item.label}</span>}
           </Link>
