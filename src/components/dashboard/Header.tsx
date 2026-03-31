@@ -1,6 +1,8 @@
 import { useSignOut } from "#/hooks/useAuth";
 import { authClient } from "#/lib/auth-client";
-import { Menu } from "lucide-react";
+import { LogOut, Menu } from "lucide-react";
+import ThemeToggle from "../ThemeToggle";
+import { Button } from "../ui/button";
 
 interface DashboardHeaderProps {
   isCollapsed: boolean;
@@ -31,7 +33,8 @@ export function DashboardHeader({
         </span>
       </div>
 
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-2">
+        <ThemeToggle />
         <div className="text-right">
           <p className="font-semibold text-[var(--sea-ink)]">
             {user?.name || user?.email}
@@ -41,12 +44,14 @@ export function DashboardHeader({
           </p>
         </div>
 
-        <button
+        <Button
           onClick={signOutAndRedirect}
+          variant="ghost"
           className="text-sm font-medium text-[var(--sea-ink-soft)] hover:text-[var(--lagoon-deep)] transition-colors px-4 py-2 rounded-full hover:bg-white/60"
         >
+          <LogOut />
           Sign Out
-        </button>
+        </Button>
       </div>
     </header>
   );
