@@ -7,6 +7,7 @@ import { components } from "../_generated/api";
 import type { DataModel } from "../_generated/dataModel";
 import authConfig from "../auth.config";
 import schema from "./schema";
+import { role } from "better-auth/plugins";
 
 // Better Auth Component
 export const authComponent = createClient<DataModel, typeof schema>(
@@ -33,6 +34,17 @@ export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
       enabled: true,
     },
     plugins: [convex({ authConfig })],
+    // extra roles to the default betterAuth config, the schema is generated from this file
+    user: {
+      additionalFields: {
+        role: {
+          type: ["admin", "owner", "waitress", "chef", "kitchen"],
+          required: false,
+          defaultValue: "waitress",
+          input: false,
+        },
+      },
+    },
     advanced: {
       useSecureCookies: !isDev,
       // Default attributes for all cookies

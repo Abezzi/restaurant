@@ -8,7 +8,7 @@ export const get = query({
 
     if (!restaurant) {
       return {
-        name: "Talca Restaurante",
+        name: "Sandia Restaurant",
         description: "Bienvenidos a nuestro restaurante",
         address: "Talca, Región del Maule",
         phone: "+56 9 1234 5678",
