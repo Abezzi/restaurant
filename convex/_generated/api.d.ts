@@ -11,6 +11,7 @@
 import type * as http from "../http.js";
 import type * as restaurant from "../restaurant.js";
 import type * as todos from "../todos.js";
+import type * as types from "../types.js";
 
 import type {
   ApiFromModules,
@@ -22,6 +23,7 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   restaurant: typeof restaurant;
   todos: typeof todos;
+  types: typeof types;
 }>;
 
 /**
@@ -65,6 +67,7 @@ export declare const components: {
                   emailVerified: boolean;
                   image?: null | string;
                   name: string;
+                  role?: null | string;
                   updatedAt: number;
                   userId?: null | string;
                 };
@@ -140,6 +143,7 @@ export declare const components: {
                     | "createdAt"
                     | "updatedAt"
                     | "userId"
+                    | "role"
                     | "_id";
                   operator?:
                     | "lt"
@@ -327,6 +331,7 @@ export declare const components: {
                     | "createdAt"
                     | "updatedAt"
                     | "userId"
+                    | "role"
                     | "_id";
                   operator?:
                     | "lt"
@@ -579,6 +584,7 @@ export declare const components: {
                   emailVerified?: boolean;
                   image?: null | string;
                   name?: string;
+                  role?: null | string;
                   updatedAt?: number;
                   userId?: null | string;
                 };
@@ -592,6 +598,7 @@ export declare const components: {
                     | "createdAt"
                     | "updatedAt"
                     | "userId"
+                    | "role"
                     | "_id";
                   operator?:
                     | "lt"
@@ -811,6 +818,7 @@ export declare const components: {
                   emailVerified?: boolean;
                   image?: null | string;
                   name?: string;
+                  role?: null | string;
                   updatedAt?: number;
                   userId?: null | string;
                 };
@@ -824,6 +832,7 @@ export declare const components: {
                     | "createdAt"
                     | "updatedAt"
                     | "userId"
+                    | "role"
                     | "_id";
                   operator?:
                     | "lt"

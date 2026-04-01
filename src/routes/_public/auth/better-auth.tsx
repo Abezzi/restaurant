@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { authClient } from "#/lib/auth-client";
+import { authClient } from "#/lib/authClient";
 
 export const Route = createFileRoute("/_public/auth/better-auth")({
   component: BetterAuthDemo,

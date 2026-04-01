@@ -1,5 +1,6 @@
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
+import { Role } from "./types";
 
 export default defineSchema({
   products: defineTable({
@@ -30,4 +31,11 @@ export default defineSchema({
     logoUrl: v.optional(v.string()),
     bannerUrl: v.optional(v.string()),
   }).index("by_name", ["name"]),
+  roles: defineTable({
+    name: Role,
+    description: v.optional(v.string()),
+    permissions: v.array(v.string()), // e.g. ["view_ready_dishes", "edit_dishes", "change_prices", "access_api_config"]
+  })
+    .index("by_name", ["name"])
+    .index("by_permission", ["permissions"]),
 });

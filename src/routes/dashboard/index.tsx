@@ -1,5 +1,5 @@
 import { createFileRoute, Navigate } from "@tanstack/react-router";
-import { authClient } from "#/lib/auth-client";
+import { authClient } from "#/lib/authClient";
 
 export const Route = createFileRoute("/dashboard/")({
   component: DashboardHome,
@@ -27,6 +27,7 @@ function DashboardHome() {
     <div className="p-6">
       <h1 className="text-2xl font-semibold">Restaurant Dashboard</h1>
       <p className="text-neutral-500">Welcome back, {session.user.name} 👋</p>
+      <p>{session.user.email}</p>
       {/* 
         TODO:
         - TanStack Table for dishes + price editing

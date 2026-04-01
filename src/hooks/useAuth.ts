@@ -1,4 +1,4 @@
-import { authClient } from "#/lib/auth-client";
+import { authClient } from "#/lib/authClient";
 import { useNavigate } from "@tanstack/react-router";
 
 export function useSignOut() {

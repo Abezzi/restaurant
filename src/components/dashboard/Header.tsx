@@ -1,5 +1,5 @@
 import { useSignOut } from "#/hooks/useAuth";
-import { authClient } from "#/lib/auth-client";
+import { authClient } from "#/lib/authClient";
 import { LogOut, Menu } from "lucide-react";
 import ThemeToggle from "../ThemeToggle";
 import { Button } from "../ui/button";
@@ -40,7 +40,7 @@ export function DashboardHeader({
             {user?.name || user?.email}
           </p>
           <p className="text-xs text-[var(--sea-ink-soft)] -mt-0.5">
-            {/* TODO: {user?.role || "Staff"} */}
+            {user?.role || "Staff"}
           </p>
         </div>
 
