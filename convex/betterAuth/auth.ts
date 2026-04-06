@@ -77,3 +77,5 @@ export const options = createAuthOptions({} as GenericCtx<DataModel>);
 export const createAuth = (ctx: GenericCtx<DataModel>) => {
   return betterAuth(createAuthOptions(ctx));
 };
+
+export const auth = createAuth({} as GenericCtx<DataModel>);
