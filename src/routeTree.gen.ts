@@ -9,7 +9,6 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as PublicRouteRouteImport } from './routes/_public/route'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
@@ -17,6 +16,7 @@ import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as DemoTableRouteImport } from './routes/demo/table'
 import { Route as DemoConvexRouteImport } from './routes/demo/convex'
 import { Route as DemoBetterAuthRouteImport } from './routes/demo/better-auth'
+import { Route as PublicAboutRouteImport } from './routes/_public/about'
 import { Route as DashboardUsersIndexRouteImport } from './routes/dashboard/users/index'
 import { Route as DashboardSalesIndexRouteImport } from './routes/dashboard/sales/index'
 import { Route as DashboardRolesIndexRouteImport } from './routes/dashboard/roles/index'
@@ -27,11 +27,6 @@ import { Route as DemoFormAddressRouteImport } from './routes/demo/form.address'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as PublicAuthBetterAuthRouteImport } from './routes/_public/auth/better-auth'
 
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -65,6 +60,11 @@ const DemoBetterAuthRoute = DemoBetterAuthRouteImport.update({
   id: '/demo/better-auth',
   path: '/demo/better-auth',
   getParentRoute: () => rootRouteImport,
+} as any)
+const PublicAboutRoute = PublicAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => PublicRouteRoute,
 } as any)
 const DashboardUsersIndexRoute = DashboardUsersIndexRouteImport.update({
   id: '/users/',
@@ -116,7 +116,7 @@ const PublicAuthBetterAuthRoute = PublicAuthBetterAuthRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
-  '/about': typeof AboutRoute
+  '/about': typeof PublicAboutRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/demo/convex': typeof DemoConvexRoute
   '/demo/table': typeof DemoTableRoute
@@ -132,7 +132,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/users/': typeof DashboardUsersIndexRoute
 }
 export interface FileRoutesByTo {
-  '/about': typeof AboutRoute
+  '/about': typeof PublicAboutRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/demo/convex': typeof DemoConvexRoute
   '/demo/table': typeof DemoTableRoute
@@ -152,7 +152,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_public': typeof PublicRouteRouteWithChildren
   '/dashboard': typeof DashboardRouteRouteWithChildren
-  '/about': typeof AboutRoute
+  '/_public/about': typeof PublicAboutRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/demo/convex': typeof DemoConvexRoute
   '/demo/table': typeof DemoTableRoute
@@ -208,7 +208,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_public'
     | '/dashboard'
-    | '/about'
+    | '/_public/about'
     | '/demo/better-auth'
     | '/demo/convex'
     | '/demo/table'
@@ -228,7 +228,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   PublicRouteRoute: typeof PublicRouteRouteWithChildren
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
-  AboutRoute: typeof AboutRoute
   DemoBetterAuthRoute: typeof DemoBetterAuthRoute
   DemoConvexRoute: typeof DemoConvexRoute
   DemoTableRoute: typeof DemoTableRoute
@@ -239,13 +238,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
@@ -294,6 +286,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/demo/better-auth'
       preLoaderRoute: typeof DemoBetterAuthRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_public/about': {
+      id: '/_public/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof PublicAboutRouteImport
+      parentRoute: typeof PublicRouteRoute
     }
     '/dashboard/users/': {
       id: '/dashboard/users/'
@@ -362,11 +361,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface PublicRouteRouteChildren {
+  PublicAboutRoute: typeof PublicAboutRoute
   PublicIndexRoute: typeof PublicIndexRoute
   PublicAuthBetterAuthRoute: typeof PublicAuthBetterAuthRoute
 }
 
 const PublicRouteRouteChildren: PublicRouteRouteChildren = {
+  PublicAboutRoute: PublicAboutRoute,
   PublicIndexRoute: PublicIndexRoute,
   PublicAuthBetterAuthRoute: PublicAuthBetterAuthRoute,
 }
@@ -400,7 +401,6 @@ const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   PublicRouteRoute: PublicRouteRouteWithChildren,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
-  AboutRoute: AboutRoute,
   DemoBetterAuthRoute: DemoBetterAuthRoute,
   DemoConvexRoute: DemoConvexRoute,
   DemoTableRoute: DemoTableRoute,
